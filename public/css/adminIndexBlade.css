@@ -1,0 +1,180 @@
+.container-fluid.container-card {
+    border: 2px solid black;
+    width: 450px;
+    padding: 10px;
+    margin: 30px;
+    height: auto;
+    border-radius: 9px;
+    box-shadow: 5px 5px 5px black;
+}
+
+html {
+    scrollbar-width: thin;
+    /* scrollbar-width: none; */
+}
+/* a{
+  color: black;
+} */
+
+.container-a {
+    text-decoration: none;
+    color: black;
+}
+/* a {
+  text-decoration: none;
+  color: black;
+} */
+
+.c-item img {
+    width: 120px;
+    height: auto;
+}
+
+ul {
+    /* color: black; */
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    margin-top: 5%;
+}
+
+.container-fluid.mt-4 {
+    padding-left: 30px;
+    padding-top: 40px;
+}
+
+#container-card1 {
+    background-color: aliceblue;
+}
+
+#container-card2 {
+    background-color: beige;
+}
+
+#container-card3 {
+    background-color: darkgrey;
+}
+
+#container-card4 {
+    background-color: antiquewhite;
+}
+
+.vertical-line {
+    width: 2px; /* Line thickness */
+    height: 500px; /* Line height */
+    background-color: black; /* Line color */
+    margin: 0 auto; /* Center the line */
+}
+
+.def_size {
+    height: 60px;
+    width: auto;
+    margin: 10px;
+}
+
+.admin_def_size {
+    height: 30px;
+    width: auto;
+    /* margin: 10px; */
+}
+
+/* .sidebar {
+  background-color: honeydew;
+} */
+
+.offcanvas {
+    width: 250px;
+}
+
+/* .navbar-toggler {
+  border: none;
+}
+
+.navbar-toggler:focus {
+  outline: none;
+} */
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.background {
+    margin-top: 90px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-image: url("/images/teacher.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(7px);
+    /* Apply blur only to the background */
+    z-index: -1;
+    /* Send it to the back */
+}
+
+.navbar {
+    text-align: center;
+    background-color: beige;
+    height: 60px;
+    z-index: 1;
+}
+
+.welcomeMessage {
+    margin-left: 45%;
+}
+
+@media (min-width: 501px) and (max-width: 900px) {
+    .navbar-brand.mb-0.h1 {
+        display: none;
+    }
+
+    .welcomeMessage {
+        margin-left: 40%;
+    }
+
+    .container-fluid.container-card {
+        width: 450px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        /* padding: 10px; */
+        /* margin: 30px; */
+        height: auto;
+    }
+}
+
+@media (max-width: 500px) {
+    .container-fluid.container-card {
+        width: 350px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        /* padding: 10px; */
+        /* margin: 30px; */
+        height: auto;
+    }
+}
+
+.admin-container {
+    margin-left: 70px;
+}
+
+.row-t {
+    margin-right: 50px;
+}
+
+.row {
+  margin-right: 0px;
+}
+

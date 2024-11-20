@@ -1,0 +1,125 @@
+/* General styles */
+/* body {
+    background-color: #f8f9fa;  Light gray background 
+    font-family: 'Arial', sans-serif;
+} */
+
+/* Card container */
+.card {
+    background-color: #ffffffd1; /* White background */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+/* Table styles */
+.table {
+    margin-top: 20px;
+}
+
+.table th {
+    background-color: #ffffffd1; /* Light gray header */
+    color: #333; /* Dark text */
+    font-weight: bold;
+}
+
+.table td {
+    color: #555; /* Medium-dark text */
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9fa; /* Highlight row on hover */
+    cursor: pointer;
+}
+
+/* Buttons */
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #212529;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* Pagination styles */
+.pagination {
+    justify-content: center;
+}
+
+.page-item.active .page-link {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.page-link {
+    color: #007bff;
+}
+
+.page-link:hover {
+    color: #0056b3;
+}
+
+/* Filters section */
+.form-control {
+    border-radius: 5px;
+    height: 38px;
+}
+
+.form-select {
+    border-radius: 5px;
+    height: 38px;
+}
+
+label {
+    font-weight: bold;
+    color: #333;
+}
+
+.btn {
+    border-radius: 5px;
+    height: 38px;
+}
+
+/* Alignment for the filter buttons */
+.row .btn {
+    margin-top: 25px;
+}
+
+.add-buttons{
+    text-align: end;
+    /* display: flex; */
+    /* justify-content: end;
+    align-items: center;*/
+    margin-bottom: 20px; 
+    margin-right: 20px;
+}
+

@@ -1,0 +1,53 @@
+.navbar.navbar-expand-sm.fixed-top {
+    background-color: beige;
+    height: 90px;
+
+  }
+
+  .adminsphere_logo {
+    height: 80px;
+    width: auto;
+  }
+
+  body {
+    position: relative;
+    margin: 0;
+    height: 100vh;
+    background-color: ghostwhite;
+  }
+
+
+
+  footer {
+    background-color: whitesmoke;
+    margin-top: 20px;
+  }
+
+  .def_size {
+    height: 30px;
+    width: auto;
+    margin: 10px;
+
+  }
+
+  .def_size_1 {
+    height: 80px;
+    width: auto;
+    margin: 10px;
+
+  }
+
+  .carousel-item img {
+    height: 850px;
+    width: 1900px;
+    margin-top: 90px;
+    object-fit: cover;
+  }
+
+
+
+
+a{
+    color: black;
+    text-decoration: none;
+}
