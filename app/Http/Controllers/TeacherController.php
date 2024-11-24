@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 class TeacherController extends Controller
 {
     public function create(Request $request) {
-        $departments = Department::all();
+        $departments = Department::where('department_code', '!=', 'ADMIN')->get();
         return view('teacher.register', compact('departments'));
     }
 

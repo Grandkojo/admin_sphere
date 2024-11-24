@@ -15,7 +15,9 @@
 
         <div class="row-students row">
 
-            @include('layout.admin-table-template')
+            @include('layout.admin-table-template', ['departments' => $departments])
             {{-- Hello Students --}}
         </div>
     </div>
+
+@endsection

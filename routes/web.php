@@ -66,6 +66,7 @@ Route::prefix('/teacher')->middleware(['auth', 'authenticated:2'])->name('teache
 Route::prefix('/admin')->middleware('auth', 'authenticated:3')->name('admin.')->group(function(){
     Route::get('/dashboard', [AdminDashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('/students', [AdminDashboardController::class, 'students'])->name('students');
+    Route::get('/students/new', [AdminDashboardController::class, 'create_student'])->name('students.new');
     Route::get('/teachers', [AdminDashboardController::class, 'teachers'])->name('teachers');
     Route::get('/admin/students/{id}/edit', [StudentController::class, 'edit'])->name('admin.students.edit');
     Route::put('/admin/students/{id}', [StudentController::class, 'update'])->name('admin.students.update');

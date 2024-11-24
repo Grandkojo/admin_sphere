@@ -7,9 +7,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
     <title>AdminSphere | Admin</title>
-    <link rel="icon" href="{{ asset('images/adminsphere_icno.png') }}">
+    <link rel="icon" href="{{ asset('images/adminsphere_icon.png') }}">
     {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" /> --}}
     <link rel="stylesheet" href="{{ asset('css/adminNavbar.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/adminIndexBlade.css') }}" />
@@ -27,6 +27,8 @@
     <div>
         @yield('content')
     </div>
+
+    
 
 
 

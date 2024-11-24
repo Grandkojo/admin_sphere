@@ -1,13 +1,16 @@
 <div class="container-fluid">
     <div class="add-buttons">
-        <a href="#" class="btn btn-primary text-end"><i class="fa fa-plus me-2" aria-hidden="true"></i>New</a>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-student">
+            <i class="fa fa-plus me-2" aria-hidden="true"></i>New
+        </button>
+        {{-- <a href="{{ route('admin.students.new')}}" class="btn btn-primary text-end"><i class="fa fa-plus me-2" aria-hidden="true"></i>New</a> --}}
     </div>
     <div class="card p-4">
         <div class="row mb-3">
             <div class="col-md-4">
                 <label for="name" class="form-label">Enter Name</label>
                 <input type="text" id="name" name="name" class="form-control" placeholder="Search name here"
-                    value="{{ request('name') }}">
+                    value="{{ request('name') }}" autocomplete="on">
             </div>
             <div class="col-md-3">
                 <label for="program" class="form-label">Courses</label>
@@ -120,3 +123,76 @@
         window.location.href = `?name=${name}&program=${program}&stream=${stream}`;
     }
 </script>
+
+
+{{-- Add student modal --}}
+
+<div class="modal fade" id="add-student">
+    <<div class="modal-dialog modal-dialog-centered  modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Add Student</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form class="add-student" action="{{ route('admin.students.new') }}" method="POST">
+                    @csrf
+                    <div class="form-group mb-3">
+                        <label for="name">Name:</label>
+                        <input type="text" name="name" id="name" class="form-control"
+                            value="{{ old('name') }}" required autocomplete="true" placeholder="John Doe">
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="email">Email:</label>
+                        <input type="email" name="email" id="email" class="form-control"
+                            value="{{ old('email') }}" required placeholder="example@gmail.com">
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="gender">Gender:</label>
+                        <select name="gender" id="gender" class="form-control" required>
+                            <option value="">Select Gender</option>
+                            <option value="M" {{ old('gender') == 'M' ? 'selected' : '' }}>Male</option>
+                            <option value="F" {{ old('gender') == 'F' ? 'selected' : '' }}>Female</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="department_id">Department:</label>
+                        <select name="department_id" id="department_id" class="form-control" required>
+                            <option value="">Select Department</option>
+
+                            @foreach ($departments as $department)
+                                <option value="{{ $department->id }}"
+                                    {{ old('department_id') == $department->id ? 'selected' : '' }}>
+                                    {{ $department->department_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <h6 class="text-danger"><small>Note: this would be a temporary password</small></h6>
+                        <input type="password" name="password" id="password" class="form-control" required placeholder="enter password">
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class=" form-control btn btn-primary mb-3 mt-3">Create</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+</div>
+</div>
