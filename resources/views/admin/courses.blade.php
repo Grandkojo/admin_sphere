@@ -11,14 +11,14 @@
     <div class="admin-container">
         <div class="container-fluid mt-4">
             @include('layout.back-button')
-            <h2><b>STUDENTS</b></h2>
+            <h2><b>COURSES</b></h2>
         </div>
 
         <div class="row-students row">
 
-            @include('layout.students-template', ['departments' => $departments])
+            @include('layout.courses-table', ['departments' => $departments])
             {{-- Hello Students --}}
         </div>
     </div>
-
+    
 @endsection

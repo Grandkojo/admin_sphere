@@ -49,10 +49,10 @@
                         <a href="{{ url('login/') }}" role='button' style="width:90px; font-size:20px"><b>Login</b></a>
 
                     </ul>
-                    <ul class="navbar-nav">
+                    {{-- <ul class="navbar-nav">
                         <a  href="{{url('student/signup/')}}" role="button" style="width:90px; font-size:20px"><b>Sign Up</b></a>
 
-                    </ul>
+                    </ul> --}}
                 </div>
             </div>
         </nav>

@@ -10,12 +10,13 @@
 
     <div class="admin-container">
         <div class="container-fluid mt-4">
+            {{-- @include('layout.back-button') --}}
             <h2><b>DASHBOARD</b></h2>
         </div>
 
         <div class="row-t row">
             <div class="col-md-12 col-lg-4 col-sm-12 col-12">
-                <a class="container-a" href="{{ route('student.course-materials') }}">
+                <a class="container-a" href="{{ route('admin.courses') }}">
                     <div class="container-fluid container-card" id="container-card1">
                         <div class="row">
                             <div class="col-7">

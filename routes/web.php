@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\AdminCoursesController;
+use App\Http\Controllers\AdminStudentsController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\StudentSettingsController;
 use App\Http\Controllers\TeacherSettingsController;
@@ -65,10 +67,20 @@ Route::prefix('/teacher')->middleware(['auth', 'authenticated:2'])->name('teache
 
 Route::prefix('/admin')->middleware('auth', 'authenticated:3')->name('admin.')->group(function(){
     Route::get('/dashboard', [AdminDashboardController::class, 'dashboard'])->name('dashboard');
-    Route::get('/students', [AdminDashboardController::class, 'students'])->name('students');
+    Route::get('/courses', [AdminCoursesController::class, 'courses'])->name('courses');
+    Route::get('/admin/courses/{id}/edit', [AdminCoursesController::class, 'edit'])->name('courses.edit');
+    Route::put('/admin/courses/{id}', [AdminCoursesController::class, 'update'])->name('courses.update');
+    Route::delete('/admin/courses/{id}', [AdminCoursesController::class, 'destroy'])->name('courses.destroy');
+    Route::get('/students', [AdminStudentsController::class, 'students'])->name('students');
+    Route::get('/students/filter', [AdminStudentsController::class, 'filterStudentByName'])->name('students.filter');
     Route::get('/students/new', [AdminDashboardController::class, 'create_student'])->name('students.new');
     Route::get('/teachers', [AdminDashboardController::class, 'teachers'])->name('teachers');
-    Route::get('/admin/students/{id}/edit', [StudentController::class, 'edit'])->name('admin.students.edit');
-    Route::put('/admin/students/{id}', [StudentController::class, 'update'])->name('admin.students.update');
-    Route::delete('/admin/students/{id}', [StudentController::class, 'destroy'])->name('admin.students.delete');
+    Route::get('/admin/students/{id}/edit', [AdminDashboardController::class, 'edit'])->name('users.edit');
+    Route::put('/admin/students/{id}', [AdminDashboardController::class, 'update'])->name('users.update');
+    Route::delete('/admin/students/{id}', [AdminDashboardController::class, 'destroy'])->name('users.destroy');
+
 });
+
+// Route::prefix('admin/api')->middleware('auth', 'authenticated:3')->name('admin.api.')->group(function(){
+//     Route::get('/program_filter', [AdminCoursesController::class, 'getProgram'])->name('program_filter');
+// });

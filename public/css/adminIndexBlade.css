@@ -42,8 +42,10 @@ li {
 }
 
 .container-fluid.mt-4 {
+    display: flex;
+    
     padding-left: 30px;
-    padding-top: 40px;
+    padding-top: 50px;
 }
 
 #container-card1 {
@@ -178,3 +180,9 @@ li {
   margin-right: 0px;
 }
 
+.dropdown-menu {
+    position: absolute; /* Ensures it hovers */
+    top: 100%; /* Position it just below the button */
+    left: 0;
+    z-index: 1050; /* Ensures it is above other elements */
+}

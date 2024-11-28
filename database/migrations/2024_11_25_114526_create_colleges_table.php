@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('department_id');
-            $table->foreign('department_id')->references('id')->on('departments')->cascadeOnDelete();
-
-            //
+        Schema::create('colleges', function (Blueprint $table) {
+            $table->id();
+            $table->string('college_code');
+            $table->string('college_name');
+            $table->longText('college_description');
+            $table->timestamps();
         });
     }
 
@@ -24,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('colleges');
     }
 };

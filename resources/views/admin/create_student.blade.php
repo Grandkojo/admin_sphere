@@ -47,6 +47,7 @@
                         </select>
                     </div>
 
+
                     <div class="form-group">
                         <label for="password">Password:</label>
                         <h5>Note: this would be a temporary password</h5>

@@ -14,12 +14,16 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->unique();
-            $table->string('name');
+            $table->string('last_name');
+            $table->string('other_names');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('gender', ['M', 'F']);
-            $table->enum('role', ['1', '2'])->default('1');
+            $table->enum('role', ['1', '2', '3'])->default('1');
+            $table->enum('type', ['regular', 'distance', 'fee_paying'])->default('regular')->nullable();
+            $table->year('registered_year')->nullable()->nullable();
+            $table->year('graduation_year')->nullable()->nullable(); 
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
