@@ -25,15 +25,7 @@
                         @endforeach
                     </select>
                 </form>
-                <div id="loader"
-                    style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.8); z-index: 9999; text-align: center; justify-content: center; align-items: center;">
-                    <div>
-                        <p>Loading...</p>
-                        <div class="spinner-border text-primary" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                    </div>
-                </div>
+
             </div>
             <div class="col-md-3">
                 <label for="stream" class="form-label">Stream</label>
@@ -64,6 +56,15 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <div id="loader"
+                        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.8); z-index: 9999; text-align: center; justify-content: center; align-items: center;">
+                        <div>
+                            <p>Loading...</p>
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
                     @if ($users->isNotEmpty())
                         @foreach ($users as $user)
                             <tr>
@@ -79,12 +80,22 @@
                                             Action
                                         </button>
                                         <ul class="dropdown-menu">
+                                            <li><a id="userDetails" class="dropdown-item"
+                                                    href="{{ route('admin.users.details', $user->id) }}">Details</a>
+                                            </li>
                                             <li><a class="dropdown-item"
                                                     href="{{ route('admin.users.edit', $user->id) }}">Edit</a></li>
-                                            <li><a class="dropdown-item"
+                                            <li><a id="deleteUser" onclick="deleteStudent(event)" class="dropdown-item"
                                                     href="{{ route('admin.users.destroy', $user->id) }}">Delete</a>
                                             </li>
                                         </ul>
+
+                                        <form id="delete-form-{{ $user->id }}"
+                                            action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
+                                            style="display: none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
                                     </div>
                                 </td>
                             </tr>
@@ -106,12 +117,12 @@
 
 {{-- Student modal --}}
 <div class="modal fade" id="add-student">
-    <<div class="modal-dialog modal-dialog-centered  modal-xl">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
         <div class="modal-content">
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Add Course</h4>
+                <h4 class="modal-title">Add Student</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
@@ -120,10 +131,17 @@
                 <form class="add-student" action="{{ route('admin.students.new') }}" method="POST">
                     @csrf
                     <div class="form-group mb-3">
-                        <label for="modal-name">Name:</label>
-                        <input type="text" name="name" id="modal-name" class="form-control"
-                            value="{{ old('name') }}" required autocomplete="true" placeholder="John Doe">
+                        <label for="last_name">Last Name:</label>
+                        <input type="text" name="last_name" id="last_name" class="form-control"
+                            value="{{ old('last-name') }}" required autocomplete="true" placeholder="Doe">
                     </div>
+                    <div class="form-group mb-3">
+                        <label for="other_names">Other Names:</label>
+                        <input type="text" name="other_names" id="other_names" class="form-control"
+                            value="{{ old('other_names') }}" required autocomplete="true"
+                            placeholder="John Griffin">
+                    </div>
+
 
                     <div class="form-group mb-3">
                         <label for="email">Email:</label>
@@ -141,22 +159,8 @@
                     </div>
 
                     <div class="form-group mb-3">
-                        <label for="department_id">Department:</label>
-                        <select name="department_id" id="department_id" class="form-control" required>
-                            <option value="">Select Department</option>
-
-                            @foreach ($departments as $department)
-                                <option value="{{ $department->id }}"
-                                    {{ old('department_id') == $department->id ? 'selected' : '' }}>
-                                    {{ $department->department_name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label for="program">Program:</label>
-                        <select name="program" id="modal-program" class="form-control" required>
+                        <label for="program_id">Program:</label>
+                        <select name="program_id" id="program_id" class="form-control" required>
                             <option value="">Select Program</option>
                             @foreach ($programs as $program)
                                 <option value="{{ $program->id }}"
@@ -164,6 +168,16 @@
                                     {{ $program->program_name }}
                                 </option>
                             @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="type">Student Type:</label>
+                        <select name="type" id="type" class="form-control" required>
+                            <option value="">Select Type</option>
+                            <option value="regular" {{ old('type') == 'M' ? 'selected' : '' }}>Regular</option>
+                            <option value="distance" {{ old('type') == 'M' ? 'selected' : '' }}>Distance</option>
+                            <option value="fee_paying" {{ old('type') == 'F' ? 'selected' : '' }}>Fee-Paying</option>
                         </select>
                     </div>
 
@@ -186,33 +200,49 @@
             </div>
 
         </div>
-</div>
+    </div>
 
-<script>
-    function filterResults() {
-        // alert('Filtering results');
-        // document.getElementById('loader').style.display = 'flex';
+    <script>
+        function filterResults() {
 
-        let studentname = document.getElementById('search').value;
+            let studentname = document.getElementById('search').value;
 
-        const url = `{{ route('admin.students.filter') }}?search=${studentname}`;
-        // alert(url); return;
-        window.location.href = url;
+            const url = `{{ route('admin.students.filter') }}?search=${studentname}`;
+            document.getElementById('loader').style.display = 'flex';
 
-        // fetch(`{{ route('admin.students.filter') }}?search=${studentname}`)
-            // .then(response => response.json())
-            // .then(data => {
-            //     console.log(data);
-            //     alert(data);
-            // })
-            // .catch(error => {
-            //     console.error('Error:', error);
-            // });
+            window.location.href = url;
+        }
 
-        // alert(studentname);
+        function deleteStudent(e, userId) {
+            e.preventDefault();
 
-        // setTimeout(() => {
-        //     document.getElementById('loader').style.display = 'none';
-        // }, 2000);
-    }
-</script>
+            // Show SweetAlert confirmation dialog
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, keep it'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If user confirmed, submit the form
+                    var formId = 'delete-form-' + e.target.getAttribute('href').split('/')
+                .pop(); // Get the user ID from the link's href
+                    document.getElementById(formId).submit(); // Submit the hidden form
+                    Swal.fire(
+                        'Deleted!',
+                        'The user has been deleted.',
+                        'success'
+                    );
+                } else {
+                    // If user canceled, show a cancel confirmation message (optional)
+                    Swal.fire(
+                        'Cancelled',
+                        'The user was not deleted.',
+                        'error'
+                    );
+                }
+            });
+        }
+    </script>

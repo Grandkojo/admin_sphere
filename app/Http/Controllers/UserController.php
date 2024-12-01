@@ -25,7 +25,8 @@ class UserController extends Controller
         $uniqueId = $userClass->generateUniqueId();
 
         $incomingFields = $request->validate([
-            'name' => ['required', 'min:3', 'string', Rule::unique('users', 'name')],
+            'last_name' => ['required', 'min:3', 'string', Rule::unique('users', 'last_name')],
+            'other_names' => ['required', 'min:3', 'string', Rule::unique('users', 'other_names')],
             'email' => ['required', 'email', Rule::unique('users', 'email')],
             'role' => ['required', 'string', Rule::in(['1', '2'])],
             'gender' => ['required', 'string', Rule::in(['M', 'F'])],

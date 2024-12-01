@@ -40,7 +40,7 @@ class ProgramsTableSeeder extends Seeder
 
             ['program_code' => 'ENT', 'program_name' => 'Entrepreneurship', 'program_description' => 'Entrepreneurship discipline', 'department_id' => 6],
 
-            ['program_code' => 'MGT', 'program_name' => 'Management', 'program_description' => 'Management discipline', 'department_id' => 6],
+            ['program_code' => 'MGT', 'program_name' => 'Management', 'program_description' => 'Management discipline', 'department_id' => 6, 'program_type' => 'MSC'],
 
             ['program_code' => 'MKT', 'program_name' => 'Marketing', 'program_description' => 'Marketing discipline', 'department_id' => 6],
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\AdminCoursesController;
+use App\Http\Controllers\AdminProgramsController;
 use App\Http\Controllers\AdminStudentsController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\StudentSettingsController;
@@ -64,20 +65,23 @@ Route::prefix('/teacher')->middleware(['auth', 'authenticated:2'])->name('teache
 
 
 //admin routes
-
 Route::prefix('/admin')->middleware('auth', 'authenticated:3')->name('admin.')->group(function(){
     Route::get('/dashboard', [AdminDashboardController::class, 'dashboard'])->name('dashboard');
+    Route::get('programs', [AdminProgramsController::class, 'programs'])->name('programs');
+    Route::get('/admin/programs/{id}/edit', [AdminProgramsController::class, 'edit'])->name('programs.edit');
+    Route::delete('/admin/programs/{id}', [AdminProgramsController::class, 'destroy'])->name('programs.destroy');
     Route::get('/courses', [AdminCoursesController::class, 'courses'])->name('courses');
     Route::get('/admin/courses/{id}/edit', [AdminCoursesController::class, 'edit'])->name('courses.edit');
     Route::put('/admin/courses/{id}', [AdminCoursesController::class, 'update'])->name('courses.update');
     Route::delete('/admin/courses/{id}', [AdminCoursesController::class, 'destroy'])->name('courses.destroy');
     Route::get('/students', [AdminStudentsController::class, 'students'])->name('students');
     Route::get('/students/filter', [AdminStudentsController::class, 'filterStudentByName'])->name('students.filter');
-    Route::get('/students/new', [AdminDashboardController::class, 'create_student'])->name('students.new');
+    Route::post('/students/new', [AdminStudentsController::class, 'create_student'])->name('students.new');
     Route::get('/teachers', [AdminDashboardController::class, 'teachers'])->name('teachers');
-    Route::get('/admin/students/{id}/edit', [AdminDashboardController::class, 'edit'])->name('users.edit');
-    Route::put('/admin/students/{id}', [AdminDashboardController::class, 'update'])->name('users.update');
-    Route::delete('/admin/students/{id}', [AdminDashboardController::class, 'destroy'])->name('users.destroy');
+    Route::get('/admin/students/{id}', [AdminStudentsController::class, 'details'])->name('users.details');
+    Route::get('/admin/students/{id}/edit', [AdminStudentsController::class, 'edit'])->name('users.edit');
+    Route::put('/admin/students/{id}', [AdminStudentsController::class, 'update'])->name('users.update');
+    Route::delete('/admin/students/{id}', [AdminStudentsController::class, 'destroy'])->name('users.destroy');
 
 });
 

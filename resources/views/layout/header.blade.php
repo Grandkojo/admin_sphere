@@ -18,7 +18,7 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <h3 class="welcomeMessage">Welcome, {{ Auth::user()->name }}</h3>
+            <h3 class="welcomeMessage">Welcome, {{ Auth::user()->last_name }} {{Auth::user()->other_names}}</h3>
             <span class="navbar-brand mb-0 h1"><img src="{{ asset('images/adminsphere_logo.png') }}" alt="adminsphere_icon" class="def_size"></span>
         </div>
     </nav>

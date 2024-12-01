@@ -148,3 +148,8 @@ label {
     height: 3rem;
     margin-top: 1rem;
 }
+
+.table-responsive.mb-3{
+    min-height: 210px;
+}
+

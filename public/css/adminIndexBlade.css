@@ -20,6 +20,16 @@ html {
     text-decoration: none;
     color: black;
 }
+
+/* .container-a:hover { */
+    /* text-decoration: none; */
+    /* color: black; */
+    /* border: 1px solid blue; */
+/* } */
+
+.container-fluid .container-card:hover{
+    border: 2px solid blue;
+}
 /* a {
   text-decoration: none;
   color: black;
