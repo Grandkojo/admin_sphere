@@ -236,7 +236,7 @@
                 if (result.isConfirmed) {
                     // If user confirmed, submit the form
                     var formId = 'delete-form-' + e.target.getAttribute('href').split('/')
-                .pop(); // Get the user ID from the link's href
+                        .pop(); // Get the user ID from the link's href
                     document.getElementById(formId).submit(); // Submit the hidden form
                     Swal.fire(
                         'Deleted!',

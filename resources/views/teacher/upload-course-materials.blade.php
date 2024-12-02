@@ -14,7 +14,6 @@
         @include('layout.alerts')
         @include('layout.teacher.uploadMaterial-template')
 
-        {{-- @include('layout.teacher.uploadMaterial-template', ['departments' => $departments]) --}}
     </div>
 </div>
 
