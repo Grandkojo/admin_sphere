@@ -13,19 +13,27 @@
                     value="{{ request('search') }}" autocomplete="on">
             </div>
             <div class="col-md-3">
-                <label for="program" class="form-label">Programs</label>
-                <form method="GET" action="{{ route('admin.students') }}">
-                    <select id="program" name="program" class="form-select" onchange="this.form.submit()">
-                        <option value="ALL" {{ $selected_program == 'ALL' ? 'selected' : '' }}>ALL</option>
-                        @foreach ($programs as $program)
-                            <option value="{{ $program->id }}"
-                                {{ $selected_program == $program->id ? 'selected' : '' }}>
-                                {{ $program->program_name }}
+                <label for="department" class="form-label">Departments</label>
+                <form method="GET" action="{{ route('admin.teachers') }}">
+                    <select id="department" name="department" class="form-select" onchange="this.form.submit()">
+                        <option value="ALL" {{ $selected_department == 'ALL' ? 'selected' : '' }}>ALL</option>
+                        @foreach ($departments as $department)
+                            <option value="{{ $department->id }}"
+                                {{ $selected_department == $department->id ? 'selected' : '' }}>
+                                {{ $department->department_name }}
                             </option>
                         @endforeach
                     </select>
                 </form>
-
+                <div id="loader"
+                    style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.8); z-index: 9999; text-align: center; justify-content: center; align-items: center;">
+                    <div>
+                        <p>Loading...</p>
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-md-3">
                 <label for="stream" class="form-label">Stream</label>
@@ -37,7 +45,7 @@
             </div>
             <div class="col-md-2 d-flex align-items-end">
                 <button class="btn btn-success w-100 me-2" onclick="filterResults()">Search</button>
-                <a href="{{ route('admin.courses') }}" class="btn btn-primary w-100">Reset</a>
+                <a href="{{ route('admin.teachers') }}" class="btn btn-primary w-100">Reset</a>
             </div>
         </div>
 
@@ -46,10 +54,10 @@
                 <thead class="table-light">
                     <tr>
                         <th>#</th>
-                        <th>Student ID</th>
+                        <th>Teacher ID</th>
                         <th>Last Name</th>
                         <th>Othernames</th>
-                        <th>Type</th>
+                        {{-- <th>Type</th>/ --}}
                         {{-- <th>Stream</th> --}}
                         {{-- <th>Status</th> --}}
                         <th>Action</th>
@@ -72,7 +80,7 @@
                                 <td>{{ $user->user_id }}</td>
                                 <td>{{ $user->last_name }}</td>
                                 <td>{{ $user->other_names }}</td>
-                                <td>{{ $user->type }}</td>
+                                {{-- <td>{{ $user->type }}</td> --}}
                                 <td>
                                     <div class="dropdown">
                                         <button type="button" class="btn btn-primary dropdown-toggle m-0"
@@ -81,17 +89,17 @@
                                         </button>
                                         <ul class="dropdown-menu">
                                             {{-- <li><a id="userDetails" class="dropdown-item"
-                                                    href="{{ route('admin.students.details', $user->id) }}">Details</a>
+                                                    href="{{ route('admin.teachers.details', $user->id) }}">Details</a>
                                             </li> --}}
                                             <li><a class="dropdown-item"
-                                                    href="{{ route('admin.students.edit', $user->id) }}">Edit</a></li>
+                                                    href="{{ route('admin.teachers.edit', $user->id) }}">Edit</a></li>
                                             <li><a id="deleteUser" onclick="deleteStudent(event)" class="dropdown-item"
-                                                    href="{{ route('admin.students.destroy', $user->id) }}">Delete</a>
+                                                    href="{{ route('admin.teachers.destroy', $user->id) }}">Delete</a>
                                             </li>
                                         </ul>
 
                                         <form id="delete-form-{{ $user->id }}"
-                                            action="{{ route('admin.students.destroy', $user->id) }}" method="POST"
+                                            action="{{ route('admin.teachers.destroy', $user->id) }}" method="POST"
                                             style="display: none;">
                                             @csrf
                                             @method('DELETE')
@@ -102,12 +110,12 @@
                         @endforeach
                     @else
                         <tr>
-                            <td colspan="5" class="text-center">No students found.</td>
+                            <td colspan="5" class="text-center">No teachers found.</td>
                         </tr>
                     @endif
                 </tbody>
             </table>
-            {{ $users->appends(['program' => $selected_program])->onEachSide(1)->links() }}
+            {{ $users->appends(['department' => $selected_department])->onEachSide(1)->links() }}
             {{-- {{ $users->appends(['program' => $selected_program])->onEachSide(1)->links() }} --}}
         </div>
 
@@ -205,12 +213,10 @@
     <script>
         function filterResults() {
 
-            let studentname = document.getElementById('search').value;
+            let teachername = document.getElementById('search').value;
 
-            const url = `{{ route('admin.students.filter') }}?search=${studentname}`;
-            // alert(url); return;
+            const url = `{{ route('admin.teachers.filter') }}?search=${teachername}`;
             document.getElementById('loader').style.display = 'flex';
-            // return;
 
             window.location.href = url;
         }

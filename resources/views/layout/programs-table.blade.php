@@ -9,11 +9,11 @@
         <div class="row mb-3">
             <div class="col-md-4">
                 <label for="name" class="form-label">Search Program</label>
-                <input type="text" id="name" name="name" class="form-control" placeholder="Search program here"
-                    value="{{ request('name') }}" autocomplete="on">
+                <input type="text" id="name" name="name" class="form-control"
+                    placeholder="Search program here" value="{{ request('name') }}" autocomplete="on">
             </div>
             <div class="col-md-3">
-                <label for="program" class="form-label">Departments</label>
+                <label for="department" class="form-label">Departments</label>
                 <form method="GET" action="{{ route('admin.programs') }}">
                     <select id="department" name="department" class="form-select" onchange="this.form.submit()">
                         <option value="ALL" {{ $selected_department == 'ALL' ? 'selected' : '' }}>ALL</option>
@@ -25,7 +25,8 @@
                         @endforeach
                     </select>
                 </form>
-                <div id="loader" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.8); z-index: 9999; text-align: center; justify-content: center; align-items: center;">
+                <div id="loader"
+                    style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.8); z-index: 9999; text-align: center; justify-content: center; align-items: center;">
                     <div>
                         <p>Loading...</p>
                         <div class="spinner-border text-primary" role="status">
@@ -80,7 +81,8 @@
                                         </button>
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item"
-                                                    href="{{ route('admin.programs.edit', $program->id) }}">Edit</a></li>
+                                                    href="{{ route('admin.programs.edit', $program->id) }}">Edit</a>
+                                            </li>
                                             <li><a class="dropdown-item"
                                                     href="{{ route('admin.programs.destroy', $program->id) }}">Delete</a>
                                             </li>
@@ -99,7 +101,7 @@
 
 
             </table>
-            {{ $display_programs->appends(['program' => $selected_department])->onEachSide(1)->links() }}
+            {{ $display_programs->appends(['department' => $selected_department])->onEachSide(1)->links() }}
         </div>
 
         @include('layout.data-navigation')
@@ -108,7 +110,7 @@
 
 {{-- Course modal --}}
 <div class="modal fade" id="add-program">
-    <<div class="modal-dialog modal-dialog-centered  modal-xl">
+    <div class="modal-dialog modal-dialog-centered  modal-xl">
         <div class="modal-content">
 
             <!-- Modal Header -->
@@ -119,27 +121,25 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-                <form class="add-student" action="{{ route('admin.students.new') }}" method="POST">
+                <form class="add-student" action="{{ route('admin.programs.new') }}" method="POST">
                     @csrf
                     <div class="form-group mb-3">
-                        <label for="name">Name:</label>
-                        <input type="text" name="name" id="modal-name" class="form-control"
-                            value="{{ old('name') }}" required autocomplete="true" placeholder="John Doe">
+                        <label for="program_name">Name:</label>
+                        <input type="text" name="program_name" id="modal-name" class="form-control"
+                            value="{{ old('program_name') }}" required autocomplete="true" placeholder="a program">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="program_code">Program Code:</label>
+                        <input type="text" name="program_code" id="modal-program_code" class="form-control"
+                            value="{{ old('program_code') }}" required autocomplete="true"
+                            placeholder="ex. CE or CSE (should be related to the name)">
                     </div>
 
                     <div class="form-group mb-3">
-                        <label for="email">Email:</label>
-                        <input type="email" name="email" id="email" class="form-control"
-                            value="{{ old('email') }}" required placeholder="example@gmail.com">
-                    </div>
+                        <label for="program_description">Description:</label>
+                        <textarea name="program_description" id="modal-description" class="form-control" required autocomplete="true"
+                            placeholder="Enter program description" rows="4">{{ old('description') }}</textarea>
 
-                    <div class="form-group mb-3">
-                        <label for="gender">Gender:</label>
-                        <select name="gender" id="gender" class="form-control" required>
-                            <option value="">Select Gender</option>
-                            <option value="M" {{ old('gender') == 'M' ? 'selected' : '' }}>Male</option>
-                            <option value="F" {{ old('gender') == 'F' ? 'selected' : '' }}>Female</option>
-                        </select>
                     </div>
 
                     <div class="form-group mb-3">
@@ -157,27 +157,36 @@
                     </div>
 
                     <div class="form-group mb-3">
-                        <label for="modal-program">Program:</label>
-                        <select name="program" id="modal-program" class="form-control" required>
-                            <option value="">Select Program</option>
-                            @foreach ($programs as $program)
-                                <option value="{{ $program->id }}"
-                                    {{ old('program_id') == $program->id ? 'selected' : '' }}>
-                                    {{ $program->program_name }}
-                                </option>
-                            @endforeach
+                        <label for="program_type">Type:</label>
+                        <select name="program_type" id="program_type" class="form-control" required>
+                            <option value="">Select program type</option>
+                            <option value="BSC" {{ old('program_type') == 'BSC' ? 'selected' : '' }}>Bachelors
+                            </option>
+                            <option value="MSC" {{ old('program_type') == 'MSC' ? 'selected' : '' }}>Masters
+                            </option>
+                            <option value="BA" {{ old('program_type') == 'BA' ? 'selected' : '' }}>Bachelors of
+                                Arts</option>
+                        </select>
+                    </div>
+
+
+                    <div class="form-group mb-3">
+                        <label for="program_duration">Duration:</label>
+                        <select name="program_duration" id="program_duration" class="form-control" required>
+                            <option value="">Select Duration (years)</option>
+                            <option value="1" {{ old('program_duration') == '1' ? 'selected' : '' }}>One
+                            </option>
+                            <option value="2" {{ old('program_duration') == '2' ? 'selected' : '' }}>Two
+                            </option>
+                            <option value="4" {{ old('program_duration') == '4' ? 'selected' : '' }}>Four
+                            </option>
+                            <option value="6" {{ old('program_duration') == 'M' ? 'selected' : '' }}>Six
+                            </option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="password">Password:</label>
-                        <h6 class="text-danger"><small>Note: this would be a temporary password</small></h6>
-                        <input type="password" name="password" id="password" class="form-control" required
-                            placeholder="enter password">
-                    </div>
-
-                    <div class="form-group">
-                        <button type="submit" class=" form-control btn btn-primary mb-3 mt-3">Create</button>
+                        <button type="submit" class=" form-control btn btn-primary mb-3 mt-3">Add</button>
                     </div>
                 </form>
             </div>
@@ -188,4 +197,4 @@
             </div>
 
         </div>
-</div>
+    </div>

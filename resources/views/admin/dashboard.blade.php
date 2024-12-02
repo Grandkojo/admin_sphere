@@ -2,19 +2,13 @@
 
 
 @section('content')
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
     <div class="admin-container">
         <div class="container-fluid mt-4">
-            {{-- @include('layout.back-button') --}}
             <h2><b>DASHBOARD</b></h2>
         </div>
 
         <div class="row-t row">
+            @include('layout.alerts')
             <div class="col-md-12 col-lg-4 col-sm-12 col-12">
                 <a class="container-a" href="{{ route('admin.programs') }}">
                     <div class="container-fluid container-card" id="container-card1">
@@ -139,7 +133,7 @@
                             <div class="col-5 text-end">
 
                                 <div class="c-item mt-2">
-                                    <img src="{{asset('images/admin/data-analytics.png')}}" alt="material">
+                                    <img src="{{ asset('images/admin/data-analytics.png') }}" alt="material">
                                 </div>
                             </div>
                         </div>

@@ -2,18 +2,21 @@
 
 
 @section('content')
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
+
 
     <div class="admin-container">
         <div class="container-fluid mt-4">
-            <h2><b>Teachers</b></h2>
+            @include('layout.back-button')
+            <h2><b>TEACHERS</b></h2>
         </div>
 
-        <div class="row-t row">
-            Hello Teachers
+
+        <div class="row-teachers row">
+
+            @include('layout.alerts')
+            @include('layout.teachers-template', ['departments' => $departments])
+            {{-- Hello Students --}}
         </div>
     </div>
+
+@endsection

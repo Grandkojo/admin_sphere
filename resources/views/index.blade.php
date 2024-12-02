@@ -46,7 +46,7 @@
                 <div class="collapse navbar-collapse d-flex justify-content-end" id="collapsibleNavbar"
                     style="margin-right: 80px;">
                     <ul class="navbar-nav">
-                        <a href="{{ url('login/') }}" role='button' style="width:90px; font-size:20px"><b>Login</b></a>
+                        <a href="{{ url('/login') }}" role='button' style="width:90px; font-size:20px"><b>Login</b></a>
 
                     </ul>
                     {{-- <ul class="navbar-nav">

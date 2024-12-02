@@ -9,6 +9,7 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\AdminCoursesController;
 use App\Http\Controllers\AdminProgramsController;
 use App\Http\Controllers\AdminStudentsController;
+use App\Http\Controllers\AdminTeachersController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\StudentSettingsController;
 use App\Http\Controllers\TeacherSettingsController;
@@ -57,7 +58,7 @@ Route::prefix('/student')->middleware(['auth', 'authenticated:1'])->name('studen
 Route::prefix('/teacher')->middleware(['auth', 'authenticated:2'])->name('teacher.')->group(function () {
     Route::get('/dashboard', [TeacherDashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('/upload-course-materials', [TeacherUploadCourseMaterialsController::class, 'upload_course_materials'])->name('upload-course-materials');
-    Route::get('/submit-assignment', [TeacherSubmitAssignmentsController::class, 'submit_assignment'])->name('submit-assignment');
+    Route::get('/submit-assignments', [TeacherSubmitAssignmentsController::class, 'submit_assignment'])->name('submit-assignments');
     Route::get('/grade-assignments', [TeacherGradeAssignmentsController::class, 'grade_assignments'])->name('grade-assignments');
     Route::get('/settings', [TeacherSettingsController::class, 'settings'])->name('settings');
     
@@ -67,21 +68,33 @@ Route::prefix('/teacher')->middleware(['auth', 'authenticated:2'])->name('teache
 //admin routes
 Route::prefix('/admin')->middleware('auth', 'authenticated:3')->name('admin.')->group(function(){
     Route::get('/dashboard', [AdminDashboardController::class, 'dashboard'])->name('dashboard');
+    
     Route::get('programs', [AdminProgramsController::class, 'programs'])->name('programs');
-    Route::get('/admin/programs/{id}/edit', [AdminProgramsController::class, 'edit'])->name('programs.edit');
-    Route::delete('/admin/programs/{id}', [AdminProgramsController::class, 'destroy'])->name('programs.destroy');
+    Route::get('/programs/{id}/edit', [AdminProgramsController::class, 'edit'])->name('programs.edit');
+    Route::delete('/programs/{id}', [AdminProgramsController::class, 'destroy'])->name('programs.destroy');
+    Route::post('/programs/new', [AdminProgramsController::class, 'add_program'])->name('programs.new');
+
     Route::get('/courses', [AdminCoursesController::class, 'courses'])->name('courses');
-    Route::get('/admin/courses/{id}/edit', [AdminCoursesController::class, 'edit'])->name('courses.edit');
-    Route::put('/admin/courses/{id}', [AdminCoursesController::class, 'update'])->name('courses.update');
-    Route::delete('/admin/courses/{id}', [AdminCoursesController::class, 'destroy'])->name('courses.destroy');
+    Route::get('/courses/{id}/edit', [AdminCoursesController::class, 'edit'])->name('courses.edit');
+    Route::put('/courses/{id}', [AdminCoursesController::class, 'update'])->name('courses.update');
+    Route::delete('/courses/{id}', [AdminCoursesController::class, 'destroy'])->name('courses.destroy');
+
+    Route::get('/teachers', [AdminTeachersController::class, 'teachers'])->name('teachers');
+    Route::get('/teachers/filter', [AdminTeachersController::class, 'filterTeacherByName'])->name('teachers.filter');
+    Route::get('/teachers/{id}/edit', [AdminTeachersController::class, 'edit'])->name('teachers.edit');
+    Route::put('/teachers/{id}', [AdminTeachersController::class, 'update'])->name('teachers.update');
+    Route::delete('/teacher/{id}', [AdminTeachersController::class, 'destroy'])->name('teachers.destroy');
+    Route::post('/teachers/new', [AdminTeachersController::class, 'create_teacher'])->name('teachers.new');
+    // Route::get('/teachers/{id}', [AdminTeachersController::class, 'details'])->name('teachers.details');
+
+
     Route::get('/students', [AdminStudentsController::class, 'students'])->name('students');
-    Route::get('/students/filter', [AdminStudentsController::class, 'filterStudentByName'])->name('students.filter');
     Route::post('/students/new', [AdminStudentsController::class, 'create_student'])->name('students.new');
-    Route::get('/teachers', [AdminDashboardController::class, 'teachers'])->name('teachers');
-    Route::get('/admin/students/{id}', [AdminStudentsController::class, 'details'])->name('users.details');
-    Route::get('/admin/students/{id}/edit', [AdminStudentsController::class, 'edit'])->name('users.edit');
-    Route::put('/admin/students/{id}', [AdminStudentsController::class, 'update'])->name('users.update');
-    Route::delete('/admin/students/{id}', [AdminStudentsController::class, 'destroy'])->name('users.destroy');
+    // Route::get('/students/{id}', [AdminStudentsController::class, 'details'])->name('students.details');
+    Route::get('/students/{id}/edit', [AdminStudentsController::class, 'edit'])->name('students.edit');
+    Route::put('/students/{id}', [AdminStudentsController::class, 'update'])->name('students.update');
+    Route::delete('/students/{id}', [AdminStudentsController::class, 'destroy'])->name('students.destroy');
+    Route::get('/students/filter', [AdminStudentsController::class, 'filterStudentByName'])->name('students.filter');
 
 });
 

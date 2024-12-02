@@ -13,7 +13,7 @@
 
         <div class="row">
             <div class="col-md-12 col-lg-4 col-sm-12 col-12">
-                <a href="{{route('teacher.upload-course-material')}}"">
+                <a class="container-a" href="{{route('teacher.upload-course-materials')}}"">
                     <div class="container-fluid container-card" style=" background-color:aliceblue;">
                         <div class="row">
                             <div class="col-7">
@@ -22,7 +22,7 @@
                                         <h4><b>Upload Course Material</b></h4>
                                     </li>
                                     <li>
-                                        <h5>Total Materials: <?= $numbers[0] ?></h5>
+                                        <h5>Total Materials:</h5>
                                     </li>
                                 </ul>
 
@@ -38,7 +38,7 @@
                 </a>
             </div>
             <div class="col-md-12 col-lg-4 col-sm-12 col-12">
-                <a href="{{route('teacher.grade-assignments')}}"">
+                <a class="container-a" href="{{route('teacher.grade-assignments')}}">
                     <div class="container-fluid container-card" style=" background-color:beige;">
                         <div class="row">
                             <div class="col-7">
@@ -63,7 +63,7 @@
                 </a>
             </div>
             <div class="col-md-12 col-lg-4 col-sm-12 col-12">
-                <a href="{{route('teacher.submit-assignments')}}">
+                <a class="container-a" href="{{route('teacher.submit-assignments')}}">
                     <div class="container-fluid container-card" style=" background-color:darkgrey;">
                         <div class="row">
                             <div class="col-7">
@@ -72,7 +72,7 @@
                                         <h4><b>Submit <br> Assignments</b></h4>
                                     </li>
                                     <li>
-                                        <h5>Total Assignments: <?= $numbers[1] ?></h5>
+                                        <h5>Total Assignments:</h5>
                                     </li>
                                 </ul>
 

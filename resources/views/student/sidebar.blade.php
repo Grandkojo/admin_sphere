@@ -51,7 +51,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('user.logout') }}" class="nav-link text-danger" data-tab="upload">
-                        <i class="fa fa-cog me-2" aria-hidden="true"></i>
+                        <i class="fa fa-sign-out me-2" aria-hidden="true"></i>
                         Log Out
                     </a>
                 </li>

@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="add-buttons">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-student">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#upload-course-material">
             <i class="fa fa-plus me-2" aria-hidden="true"></i>New
         </button>
         {{-- <a href="{{ route('admin.students.new')}}" class="btn btn-primary text-end"><i class="fa fa-plus me-2" aria-hidden="true"></i>New</a> --}}
@@ -8,11 +8,11 @@
     <div class="card p-4">
         <div class="row mb-3">
             <div class="col-md-4">
-                <label for="search" class="form-label">Search Student</label>
-                <input type="text" id="search" name="search" class="form-control" placeholder="Search name here"
+                <label for="search" class="form-label">Search course materia</label>
+                <input type="text" id="search" name="search" class="form-control" placeholder="Search material here"
                     value="{{ request('search') }}" autocomplete="on">
             </div>
-            <div class="col-md-3">
+            {{-- <div class="col-md-3">
                 <label for="program" class="form-label">Programs</label>
                 <form method="GET" action="{{ route('admin.students') }}">
                     <select id="program" name="program" class="form-select" onchange="this.form.submit()">
@@ -34,7 +34,7 @@
                     <option value="Stream1" {{ request('stream') == 'Stream1' ? 'selected' : '' }}>Stream 1</option>
                     <option value="Stream2" {{ request('stream') == 'Stream2' ? 'selected' : '' }}>Stream 2</option>
                 </select>
-            </div>
+            </div> --}}
             <div class="col-md-2 d-flex align-items-end">
                 <button class="btn btn-success w-100 me-2" onclick="filterResults()">Search</button>
                 <a href="{{ route('admin.courses') }}" class="btn btn-primary w-100">Reset</a>
@@ -116,7 +116,7 @@
 </div>
 
 {{-- Student modal --}}
-<div class="modal fade" id="add-student">
+{{-- <div class="modal fade" id="add-student">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
         <div class="modal-content">
 
@@ -247,4 +247,94 @@
                 }
             });
         }
-    </script>
+    </script> --}}
+
+
+<div class="modal fade" id="upload-course-material">
+<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <h4 class="modal-title">
+                <h3><i class="fa fa-plus" aria-hidden="true"></i>
+                    Add Course Material</h3>
+            </h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+            <form action="../action/teacher/uploadMaterialAction.php" method="post" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <label for="instruction"><b>Instruction</b></label>
+                    <textarea class="form-control mt-3" placeholder="Enter instruction for assignment..." name="course_material_description"
+                        id="course_material_description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="file_upload"><b>Course Material</b></label>
+                    <p class="text-danger m-2"> File type should be .pdf, .pptx or .docx</p>
+                    <input type="file" class="form-control mt-3" id="file_upload" name="file_upload" required>
+                    <!-- <div class="d-flex justify-content-end align-items-end mt-2">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </div> -->
+                </div>
+                <div class="form-group">
+                    <label for="department"><b>Department:</b></label>
+                    <select name="department" id="department" required>
+                        <option value="<?= strtolower($department['department_id']) ?>">
+                            <?= ucfirst(strtolower($department['department_name'])) ?></option>
+
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Upload</button>
+            </form>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        </div>
+
+    </div>
+</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+// Attach event listeners for all delete buttons
+document.querySelectorAll('[id^="deleteButton"]').forEach(function(deleteButton) {
+    deleteButton.addEventListener('click', function(event) {
+        event.preventDefault();
+
+        // Get the URL from the parent anchor tag
+        var targetUrl = deleteButton.parentElement.href;
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Are you sure you want to delete this file? This action cannot be undone.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "The course material has been deleted.",
+                    icon: "success",
+                    confirmButtonText: "Ok"
+                }).then(() => {
+                    // Redirect to the target URL
+                    window.location.href = targetUrl;
+                });
+            }
+        });
+    });
+});
+</script>
