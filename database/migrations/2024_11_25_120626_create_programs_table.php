@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('program_code');
             $table->string('program_name');
             $table->longText('program_description');
-            $table->enum('program_type', ['BSC', 'MSC', 'BA'])->default('BSC');
-            $table->integer('program_duration')->nullable();
+            $table->enum('program_type', ['BSC', 'MSC', 'BA'])->default('BSC')->nullable();
+            $table->integer('program_duration')->default(4);
             $table->timestamps();
         });
     }

@@ -12,7 +12,7 @@
     <div class="row-materials row">
 
         @include('layout.alerts')
-        @include('layout.teacher.uploadMaterial-template')
+        @include('layout.teacher.courseMaterial-template')
 
     </div>
 </div>

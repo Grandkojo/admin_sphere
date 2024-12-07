@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->foreignId('program_id')->nullable()->constrained('programs')->after('id');
+            $table->string('course_code')->nullable();
+            $table->foreign('course_code')->references('course_code')->on('courses')->onDelete('cascade');
         });
-        
     }
 
     /**

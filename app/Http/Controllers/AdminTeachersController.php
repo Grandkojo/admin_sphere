@@ -10,6 +10,8 @@ use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
+use function PHPSTORM_META\type;
+
 class AdminTeachersController extends Controller
 {
     public function teachers(Request $request)
@@ -18,12 +20,12 @@ class AdminTeachersController extends Controller
         $programs = Program::all();
         $selected_department = $request->get('department', 'ALL');
 
-        // Query students based on selected program
+        // Query students based on selected department
         $query = User::query();
-        if ($selected_department !== 'ALL') {
-            $query->where('program_id', $selected_department)
-                ->where('role', 2);
-        }
+        // if ($selected_department !== 'ALL') {
+        //     $query->where('program_id', $selected_department)
+        //         ->where('role', 2);
+        // }
         $users = $query->where('role', 2)->paginate(8)->appends(['program' => $selected_department]);
         return view('admin.teachers', compact('departments', 'users', 'programs', 'selected_department'));
     }
@@ -60,7 +62,7 @@ class AdminTeachersController extends Controller
         $selected_department = $request->get('program', '');
 
         $search = $request->get('search');
-        
+
         //filter teachers by name
         $query = User::query();
         $users = $query->where('role', 2)
@@ -72,6 +74,26 @@ class AdminTeachersController extends Controller
             ->paginate(8);
 
         return view('admin.teachers', compact('departments', 'users', 'programs', 'search', 'selected_department'));
+    }
+
+    public function getCoursesForDepartment($department_id)
+    {
+        if (is_string($department_id)) {
+
+            $courses = Course::whereIn('program_id', function ($query) use ($department_id) {
+                $query->select('id')
+                    ->from('programs')
+                    ->where('department_id', function ($subQuery) use ($department_id) {
+                        $subQuery->select('id')
+                            ->from('departments')
+                            ->where('id', $department_id);
+                    });
+            })->get();
+
+            return response()->json($courses);
+        } else {
+            return response()->json('Parameter should be an integer');
+        }
     }
 
     public function destroy($id)
@@ -90,5 +112,3 @@ class AdminTeachersController extends Controller
         return view('admin.student_details', compact('student'));
     }
 }
-
-

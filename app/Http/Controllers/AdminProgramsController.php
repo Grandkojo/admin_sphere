@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Models\Program;
 use App\Models\Department;
 use Illuminate\Http\Request;
@@ -42,5 +43,28 @@ class AdminProgramsController extends Controller
 
         Program::create($incomingFields);
         return redirect()->route('admin.programs')->with('success', 'Program created successfully');
+    }
+
+    public function filterProgramByName(Request $request)
+    {
+        // dd($request->all()); exit;
+
+        $departments = Department::all();
+        $programs = Program::all();
+        $selected_department = $request->get('department', 'ALL');
+
+        $search = $request->get('search');
+
+        // dd($search); exit;
+        
+        //filter course by name
+        $query = Program::query();
+        $display_programs = $query->where(function ($query) use ($search) {
+                $query->where('program_name', 'like', '%' . $search . '%')
+                    ->orWhere('program_description', 'like', '%' . $search . '%');
+            })
+            ->paginate(8)->appends(['search' => $search, 'department' => $selected_department]);
+
+        return view('admin.programs', compact('departments', 'display_programs', 'programs', 'search', 'selected_department'));
     }
 }

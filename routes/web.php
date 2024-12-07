@@ -21,7 +21,7 @@ use App\Http\Controllers\StudentFinancialStatusController;
 use App\Http\Controllers\StudentSubmitAssignmentController;
 use App\Http\Controllers\TeacherGradeAssignmentsController;
 use App\Http\Controllers\TeacherSubmitAssignmentsController;
-use App\Http\Controllers\TeacherUploadCourseMaterialsController;
+use App\Http\Controllers\TeacherCourseMaterialsController;
 
 // Public routes (no authentication required)
 Route::get('/', function () {
@@ -57,7 +57,8 @@ Route::prefix('/student')->middleware(['auth', 'authenticated:1'])->name('studen
 // Protected teacher routes (authentication required)
 Route::prefix('/teacher')->middleware(['auth', 'authenticated:2'])->name('teacher.')->group(function () {
     Route::get('/dashboard', [TeacherDashboardController::class, 'dashboard'])->name('dashboard');
-    Route::get('/upload-course-materials', [TeacherUploadCourseMaterialsController::class, 'upload_course_materials'])->name('upload-course-materials');
+    Route::get('/course-materials', [TeacherCourseMaterialsController::class, 'course_materials'])->name('course-materials');
+    Route::post('/upload-course-materials', [TeacherCourseMaterialsController::class, 'upload_course_material'])->name('upload-course-material');
     Route::get('/submit-assignments', [TeacherSubmitAssignmentsController::class, 'submit_assignment'])->name('submit-assignments');
     Route::get('/grade-assignments', [TeacherGradeAssignmentsController::class, 'grade_assignments'])->name('grade-assignments');
     Route::get('/settings', [TeacherSettingsController::class, 'settings'])->name('settings');
@@ -69,14 +70,16 @@ Route::prefix('/teacher')->middleware(['auth', 'authenticated:2'])->name('teache
 Route::prefix('/admin')->middleware('auth', 'authenticated:3')->name('admin.')->group(function(){
     Route::get('/dashboard', [AdminDashboardController::class, 'dashboard'])->name('dashboard');
     
-    Route::get('programs', [AdminProgramsController::class, 'programs'])->name('programs');
+    Route::get('/programs', [AdminProgramsController::class, 'programs'])->name('programs');
     Route::get('/programs/{id}/edit', [AdminProgramsController::class, 'edit'])->name('programs.edit');
     Route::delete('/programs/{id}', [AdminProgramsController::class, 'destroy'])->name('programs.destroy');
+    Route::get('/programs/filter', [AdminProgramsController::class, 'filterprogramByName'])->name('programs.filter');
     Route::post('/programs/new', [AdminProgramsController::class, 'add_program'])->name('programs.new');
 
     Route::get('/courses', [AdminCoursesController::class, 'courses'])->name('courses');
     Route::get('/courses/{id}/edit', [AdminCoursesController::class, 'edit'])->name('courses.edit');
     Route::put('/courses/{id}', [AdminCoursesController::class, 'update'])->name('courses.update');
+    Route::get('/courses/filter', [AdminCoursesController::class, 'filterCourseByName'])->name('courses.filter');
     Route::delete('/courses/{id}', [AdminCoursesController::class, 'destroy'])->name('courses.destroy');
 
     Route::get('/teachers', [AdminTeachersController::class, 'teachers'])->name('teachers');
@@ -85,6 +88,7 @@ Route::prefix('/admin')->middleware('auth', 'authenticated:3')->name('admin.')->
     Route::put('/teachers/{id}', [AdminTeachersController::class, 'update'])->name('teachers.update');
     Route::delete('/teacher/{id}', [AdminTeachersController::class, 'destroy'])->name('teachers.destroy');
     Route::post('/teachers/new', [AdminTeachersController::class, 'create_teacher'])->name('teachers.new');
+    Route::get('/teachers/courses-by-department/{deparment_id}', [AdminTeachersController::class, 'getCoursesForDepartment'])->name('teacher.get-courses-by-department');
     // Route::get('/teachers/{id}', [AdminTeachersController::class, 'details'])->name('teachers.details');
 
 

@@ -147,16 +147,18 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-                <form action="../action/teacher/uploadMaterialAction.php" method="post" enctype="multipart/form-data">
+                <form action="{{ route('teacher.upload-course-material') }}" method="post" id="upload-form"
+                    enctype="multipart/form-data">
 
                     <div class="form-group">
-                        <label for="course_material_description"><b>Instruction</b></label>
+                        <label for="course_material_description"><b>Instruction*</b></label>
                         <textarea class="form-control mt-3" placeholder="Enter instruction for assignment..." name="course_material_description"
                             id="course_material_description" required></textarea>
+                        <p id="desc-error-message" style="display: none"></p>
                     </div>
                     <div class="form-group">
-                        <label for="file_upload"><b>Course Material</b></label>
-                        <p class="text-danger m-2"> File type should be .pdf, .pptx or .docx</p>
+                        <label for="file_upload"><b>Course Material*</b></label>
+                        <p class="m-2" id="file-error-message" style="display: none"></p>
                         <input type="file" class="form-control mt-3" id="file_upload" name="file_upload" required>
                         <!-- <div class="d-flex justify-content-end align-items-end mt-2">
                         <i class="fa fa-plus" aria-hidden="true"></i>
@@ -168,16 +170,18 @@
                             <option value="">Select Department</option>
 
                             @foreach ($departments as $department)
-                                <option value="{{ $department->id }}"
+                                <option value="{{ $department->id }}" id="department_id"
                                     {{ old('department_id') == $department->id ? 'selected' : '' }}>
                                     {{ $department->department_name }}
                                 </option>
                             @endforeach
                         </select>
+                        <p id="dept-error-message" style="display: none"></p>
                     </div>
 
                     <div class="form-group">
-                        <button type="submit" class=" form-control btn btn-primary mb-3 mt-3">Upload</button>
+                        <button type="submit" id="#upload-button" class="form-control btn btn-primary mb-3 mt-3"
+                            onclick="checkOrSubmit(event)">Upload</button>
                     </div>
                 </form>
             </div>
@@ -259,5 +263,82 @@
                 );
             }
         });
+    }
+</script>
+<script>
+    function validateFileType(fileInput, error_msg_element) {
+        const file = fileInput.files[0]; // Get the selected file
+
+        const allowedExtensions = ['pdf', 'pptx', 'docx']; // Allowed file extensions
+        const fileName = file ? file.name.toLowerCase() : ''; // Get the file name
+
+        // Check if the file exists and has an allowed extension
+        const fileExtension = fileName.split('.').pop();
+
+        if (file && allowedExtensions.includes(fileExtension)) {
+            
+            return true;
+        } else {
+            
+            return false;
+        }
+    }
+
+    function checkOrSubmit(e) {
+        e.preventDefault();
+
+        // Get the file input element and the error message element
+        const fileInput = document.getElementById('file_upload');
+        const descInput = document.getElementById('course_material_description');
+        const departmentInput = document.getElementById('department_id');
+
+        const desc_error_message = document.getElementById('desc-error-message');
+        const file_error_message = document.getElementById('file-error-message');
+        const dept_error_message = document.getElementById('dept-error-message');
+
+        let formValid = true; 
+
+        // Reset error messages
+        desc_error_message.style.display = 'none';
+        file_error_message.style.display = 'none';
+        dept_error_message.style.display = 'none';
+
+        // Check if inputs are available
+        if (!descInput || !departmentInput || !fileInput) {
+            alert('Missing required form elements');
+            return;
+        }
+
+        // Validate file input
+        if (!validateFileType(fileInput, file_error_message)) {
+            file_error_message.style.display = 'block';
+            file_error_message.style.color = 'red';
+            file_error_message.innerText = 'File type should be .pdf, .pptx or .docx';
+            formValid = false;
+        }
+
+        // Validate description input
+        if (!descInput.value.trim()) {
+            desc_error_message.style.display = 'block';
+            desc_error_message.style.color = 'red';
+            desc_error_message.innerText = 'Instruction required';
+            formValid = false;
+        }
+
+        // Validate department input
+        if (!departmentInput.value) {
+            dept_error_message.style.display = 'block';
+            dept_error_message.style.color = 'red';
+            dept_error_message.innerText = 'Department to assign required';
+            formValid = false;
+        }
+
+        // If form is valid, submit the form
+        if (formValid) {
+            alert('All good, form is valid!');
+            document.getElementById('upload-form').submit();
+        
+            // Optionally, submit the form programmatically
+        }
     }
 </script>

@@ -71,6 +71,29 @@ class AdminCoursesController extends Controller
     //     ];
     // }
 
+    public function filterCourseByName(Request $request)
+    {
+        // dd($request->all()); exit;
+
+        $departments = Department::all();
+        $programs = Program::all();
+        $selected_program = $request->get('program', '');
+
+        $search = $request->get('search');
+
+        // dd($search); exit;
+
+        //filter course by name
+        $query = Course::query();
+        $display_courses = $query->where(function ($query) use ($search) {
+            $query->where('course_name', 'like', '%' . $search . '%')
+                ->orWhere('course_description', 'like', '%' . $search . '%');
+        })
+            ->paginate(8)->appends(['search' => $search, 'program' => $selected_program]);
+
+        return view('admin.courses', compact('departments', 'display_courses', 'programs', 'search', 'selected_program'));
+    }
+
 
     public function delete($id)
     {

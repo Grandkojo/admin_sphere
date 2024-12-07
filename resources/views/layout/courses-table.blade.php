@@ -8,9 +8,9 @@
     <div class="card p-4">
         <div class="row mb-3">
             <div class="col-md-4">
-                <label for="name" class="form-label">Search Course</label>
-                <input type="text" id="name" name="name" class="form-control" placeholder="Search course here"
-                    value="{{ request('name') }}" autocomplete="on">
+                <label for="search" class="form-label">Search Course</label>
+                <input type="text" id="search" name="search" class="form-control" placeholder="Search course here"
+                    value="{{ request('search') }}" autocomplete="on">
             </div>
             <div class="col-md-3">
                 <label for="program" class="form-label">Programs</label>
@@ -25,7 +25,8 @@
                         @endforeach
                     </select>
                 </form>
-                <div id="loader" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.8); z-index: 9999; text-align: center; justify-content: center; align-items: center;">
+                <div id="loader"
+                    style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.8); z-index: 9999; text-align: center; justify-content: center; align-items: center;">
                     <div>
                         <p>Loading...</p>
                         <div class="spinner-border text-primary" role="status">
@@ -106,7 +107,7 @@
 
 {{-- Course modal --}}
 <div class="modal fade" id="add-course">
-    <<div class="modal-dialog modal-dialog-centered  modal-xl">
+    <div class="modal-dialog modal-dialog-centered  modal-xl">
         <div class="modal-content">
 
             <!-- Modal Header -->
@@ -186,4 +187,16 @@
             </div>
 
         </div>
-</div>
+    </div>
+
+    <script>
+        function filterResults() {
+
+            let coursename = document.getElementById('search').value;
+
+            const url = `{{ route('admin.courses.filter') }}?search=${coursename}`;
+            document.getElementById('loader').style.display = 'flex';
+
+            window.location.href = url;
+        }
+    </script>

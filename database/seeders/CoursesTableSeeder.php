@@ -47,13 +47,6 @@ class CoursesTableSeeder extends Seeder
             ['course_code' => 'ME 113', 'course_name' => 'Engineering Hydrology', 'course_description'=> 'Engineering Hydrology', 'program_id' => 2],
 
 
-            // Mechanical Engineering Courses
-            ['course_code' => 'ME 101', 'course_name' => 'Introduction to Mechanical Engineering', 'course_description' => 'Introduction to the basics of mechanical engineering.', 'program_id' => 2],
-            ['course_code' => 'ME 102', 'course_name' => 'Thermodynamics', 'course_description' => 'Study of energy transfer and thermodynamic processes.', 'program_id' => 2],
-            ['course_code' => 'ME 103', 'course_name' => 'Fluid Mechanics', 'course_description' => 'Introduction to fluid behavior in engineering systems.', 'program_id' => 2],
-            ['course_code' => 'ME 104', 'course_name' => 'Strength of Materials', 'course_description' => 'Study of material deformation and failure.', 'program_id' => 2],
-            ['course_code' => 'ME 105', 'course_name' => 'Dynamics of Machines', 'course_description' => 'Analysis of machine motion and forces.', 'program_id' => 2],
-
             // Electrical Engineering Courses
             ['course_code' => 'EE 201', 'course_name' => 'Circuit Analysis', 'course_description' => 'Introduction to electrical circuits and their components.', 'program_id' => 3],
             ['course_code' => 'EE 202', 'course_name' => 'Electromagnetic Theory', 'course_description' => 'Study of electromagnetic fields and waves.', 'program_id' => 3],

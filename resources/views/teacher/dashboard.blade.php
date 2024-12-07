@@ -13,13 +13,13 @@
 
         <div class="row">
             <div class="col-md-12 col-lg-4 col-sm-12 col-12">
-                <a class="container-a" href="{{route('teacher.upload-course-materials')}}"">
+                <a class="container-a" href="{{route('teacher.course-materials')}}"">
                     <div class="container-fluid container-card" style=" background-color:aliceblue;">
                         <div class="row">
                             <div class="col-7">
                                 <ul>
                                     <li>
-                                        <h4><b>Upload Course Material</b></h4>
+                                        <h4><b>Course Materials</b></h4>
                                     </li>
                                     <li>
                                         <h5>Total Materials:</h5>

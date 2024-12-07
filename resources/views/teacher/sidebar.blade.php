@@ -15,7 +15,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('teacher.upload-course-materials') }}"
+                    <a href="{{ route('teacher.course-materials') }}"
                         class="nav-link {{ request()->routeIs('teacher.upload-course-materials') ? 'active' : '' }} text-dark">
                         <i class="fa fa-upload me-2" aria-hidden="true"></i>
                         Upload Materials

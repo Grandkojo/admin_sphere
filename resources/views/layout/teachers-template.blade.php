@@ -8,7 +8,7 @@
     <div class="card p-4">
         <div class="row mb-3">
             <div class="col-md-4">
-                <label for="search" class="form-label">Search Student</label>
+                <label for="search" class="form-label">Search Teacher</label>
                 <input type="text" id="search" name="search" class="form-control" placeholder="Search name here"
                     value="{{ request('search') }}" autocomplete="on">
             </div>
@@ -123,20 +123,20 @@
     </div>
 </div>
 
-{{-- Student modal --}}
+{{-- Teacher modal --}}
 <div class="modal fade" id="add-student">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
         <div class="modal-content">
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Add Student</h4>
+                <h4 class="modal-title">Add Teacher</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
             <!-- Modal body -->
             <div class="modal-body">
-                <form class="add-student" action="{{ route('admin.students.new') }}" method="POST">
+                <form class="add-student" action="{{ route('admin.teachers.new') }}" method="POST">
                     @csrf
                     <div class="form-group mb-3">
                         <label for="last_name">Last Name:</label>
@@ -165,21 +165,37 @@
                             <option value="F" {{ old('gender') == 'F' ? 'selected' : '' }}>Female</option>
                         </select>
                     </div>
-
                     <div class="form-group mb-3">
-                        <label for="program_id">Program:</label>
-                        <select name="program_id" id="program_id" class="form-control" required>
-                            <option value="">Select Program</option>
-                            @foreach ($programs as $program)
-                                <option value="{{ $program->id }}"
-                                    {{ old('program_id') == $program->id ? 'selected' : '' }}>
-                                    {{ $program->program_name }}
+                        <label for="gender">Department:</label>
+
+                        <select id="department" name="department" class="form-select" onchange=getCoursesByDepartment(this.value)>
+                            <option value="">Select Department</option>
+                            @foreach ($departments as $department)
+                                <option value="{{ $department->id }}"
+                                    {{ $selected_department == $department->id ? 'selected' : '' }} >
+                                    {{ $department->department_name }}
                                 </option>
                             @endforeach
                         </select>
                     </div>
-
                     <div class="form-group mb-3">
+                        <label for="course_id">Course Assigned:</label>
+                        <select name="course" id="course-dropdown" class="form-select">
+                            <option value="">Select a department first</option>
+                        </select>
+                    </div>
+                    {{-- <select name="course_id" id="course_id" class="form-control" required>
+                            <option value="">Select Course</option>
+                            @foreach ($courses as $course)
+                                <option value="{{ $course->id }}"
+                                    {{ old('course_id') == $course->id ? 'selected' : '' }}>
+                                    {{ $course->course_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div> --}}
+
+                    {{-- <div class="form-group mb-3">
                         <label for="type">Student Type:</label>
                         <select name="type" id="type" class="form-control" required>
                             <option value="">Select Type</option>
@@ -187,7 +203,7 @@
                             <option value="distance" {{ old('type') == 'M' ? 'selected' : '' }}>Distance</option>
                             <option value="fee_paying" {{ old('type') == 'F' ? 'selected' : '' }}>Fee-Paying</option>
                         </select>
-                    </div>
+                    </div> --}}
 
                     <div class="form-group">
                         <label for="password">Password:</label>
@@ -252,5 +268,41 @@
                     );
                 }
             });
+        }
+
+        function getCoursesByDepartment(department_id){
+
+            const url = `/admin/teachers/courses-by-department/${department_id}`;
+            
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+            .then(response => {
+                
+                if (!response.ok){
+                    throw new Error('Network reponse was not ok' + response.statusText);
+                }
+                
+                return response.json()
+            })
+            .then(data => {
+                // console.log(data);
+                const coursesDropdown = document.getElementById('course-dropdown');
+                coursesDropdown.innerHTML = '';
+                data.forEach(course => {
+                    const option = document.createElement('option');
+                    option.value = course.id;
+                    option.textContent = course.course_name;
+                    coursesDropdown.appendChild(option);
+                });
+            })
+            .catch(error => {
+                alert('Error fetching courses', error);
+            })
+            // alert(department_id);
         }
     </script>

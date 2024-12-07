@@ -22,8 +22,8 @@ return new class extends Migration
             $table->enum('gender', ['M', 'F']);
             $table->enum('role', ['1', '2', '3'])->default('1');
             $table->enum('type', ['regular', 'distance', 'fee_paying'])->default('regular')->nullable();
-            $table->year('registered_year')->nullable()->nullable();
-            $table->year('graduation_year')->nullable()->nullable(); 
+            $table->year('registered_year')->nullable();
+            $table->year('graduation_year')->nullable(); 
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

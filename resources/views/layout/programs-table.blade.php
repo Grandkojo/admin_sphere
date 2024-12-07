@@ -8,9 +8,9 @@
     <div class="card p-4">
         <div class="row mb-3">
             <div class="col-md-4">
-                <label for="name" class="form-label">Search Program</label>
-                <input type="text" id="name" name="name" class="form-control"
-                    placeholder="Search program here" value="{{ request('name') }}" autocomplete="on">
+                <label for="search" class="form-label">Search Program</label>
+                <input type="text" id="search" name="search" class="form-control" placeholder="Search program here"
+                    value="{{ request('search') }}" autocomplete="on">
             </div>
             <div class="col-md-3">
                 <label for="department" class="form-label">Departments</label>
@@ -45,7 +45,7 @@
             </div>
             <div class="col-md-2 d-flex align-items-end">
                 <button class="btn btn-success w-100 me-2" onclick="filterResults()">Search</button>
-                <a href="{{ route('admin.courses') }}" class="btn btn-primary w-100">Reset</a>
+                <a href="{{ route('admin.programs') }}" class="btn btn-primary w-100">Reset</a>
             </div>
         </div>
 
@@ -198,3 +198,13 @@
 
         </div>
     </div>
+    <script>
+        function filterResults() {
+            let programname = document.getElementById('search').value;
+
+            const url = `{{ route('admin.programs.filter') }}?search=${programname}`;
+            document.getElementById('loader').style.display = 'flex';
+
+            window.location.href = url;
+        }
+    </script>

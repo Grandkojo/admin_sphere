@@ -22,8 +22,9 @@ class TeachersTableSeeder extends Seeder
             'role' => '2',
             'gender' => 'M',
             'user_id' => (new UserClass())->generateUniqueId(),
-            // 'program_id' => '4',
+            'course_code' => 'CIE 101',
         ]);
+
 
         User::create([
             'last_name' => 'Teshie',
@@ -33,7 +34,7 @@ class TeachersTableSeeder extends Seeder
             'role' => '2',
             'gender' => 'M',
             'user_id' => (new UserClass())->generateUniqueId(),
-            // 'program_id' => '2',
+            'course_code' => 'ME 109',
         ]);
 
         User::create([
@@ -44,8 +45,7 @@ class TeachersTableSeeder extends Seeder
             'role' => '2',
             'gender' => 'F',
             'user_id' => (new UserClass())->generateUniqueId(),
-            // 'type' => 'fee_paying',
-            // 'program_id' => '3',
+            'course_code' => 'CE 303',
         ]);
     }
 }
