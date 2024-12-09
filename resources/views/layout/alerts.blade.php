@@ -36,7 +36,7 @@
     <div class="alert alert-danger border-0 bg-danger-lighter alert-dismissible fade show w-50 mx-auto text-start">
         <ul class="list-unstyled mb-0">
             @foreach ($errors->all() as $error)
-                <li><i class="me-2 fs-5 text-danger"></i>{{ $error }}</li> <!-- Optional icon -->
+                <li style="margin-top: 0;"><i class="me-2 fs-5 text-danger"></i>{{ $error }}</li> <!-- Optional icon -->
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             @endforeach
         </ul>

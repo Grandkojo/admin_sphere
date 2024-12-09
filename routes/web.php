@@ -58,7 +58,10 @@ Route::prefix('/student')->middleware(['auth', 'authenticated:1'])->name('studen
 Route::prefix('/teacher')->middleware(['auth', 'authenticated:2'])->name('teacher.')->group(function () {
     Route::get('/dashboard', [TeacherDashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('/course-materials', [TeacherCourseMaterialsController::class, 'course_materials'])->name('course-materials');
-    Route::post('/upload-course-materials', [TeacherCourseMaterialsController::class, 'upload_course_material'])->name('upload-course-material');
+    Route::post('/upload-course-material', [TeacherCourseMaterialsController::class, 'upload_course_material'])->name('upload-course-material');
+    Route::delete('/delete-course-material/{id}', [TeacherCourseMaterialsController::class, 'destroy'])->name('course-material.destroy');
+    Route::get('/edit-course-material/{id}', [TeacherCourseMaterialsController::class, 'edit_course_material'])->name('course-material.edit');
+
     Route::get('/submit-assignments', [TeacherSubmitAssignmentsController::class, 'submit_assignment'])->name('submit-assignments');
     Route::get('/grade-assignments', [TeacherGradeAssignmentsController::class, 'grade_assignments'])->name('grade-assignments');
     Route::get('/settings', [TeacherSettingsController::class, 'settings'])->name('settings');

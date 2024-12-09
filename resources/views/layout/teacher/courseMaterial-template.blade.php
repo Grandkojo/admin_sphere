@@ -60,15 +60,15 @@
         </div>
 
 
-        <div class="table-responsive">
+        <div class="table-responsive" style="min-height: 210px;">
             <table class="table table-bordered ">
                 <thead class="table-light">
                     <tr>
                         <th>#</th>
                         <th>Course</th>
-                        <th>Description</th>
+                        <th>Instruction</th>
                         <th>Material</th>
-                        <th>Status</th>
+                        {{-- <th>Status</th> --}}
                         {{-- <th>Stream</th> --}}
                         {{-- <th>Status</th> --}}
                         <th>Action</th>
@@ -80,10 +80,16 @@
                         @foreach ($course_materials as $course_material)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $course_material->course_material_id }}</td>
+                                <td>{{ $course_material->course_code }}</td>
                                 <td>{{ $course_material->material_description }}</td>
-                                <td>{{ $course_material->file_path }}</td>
-                                <td>{{ $course_material->status }}</td>
+                                <td>{{ $course_material->file_name }}
+                                    <i onclick="downloadFile()" class="ms-2 fa  fa-download" aria-hidden="true"
+                                        aria-label="view" title="Download"></i>
+                                    <i onclick="viewFile()" class="ms-2 fa  fa-external-link" aria-hidden="true"
+                                        aria-label="view" title="View"></i>
+
+                                </td>
+                                {{-- <td>{{ $course_material->status }}</td> --}}
                                 <td>
                                     <div class="dropdown">
                                         <button type="button" class="btn btn-primary dropdown-toggle m-0"
@@ -113,6 +119,31 @@
                                 </td>
                             </tr>
                         @endforeach
+
+                        <script>
+                            function downloadFile() {
+
+                                var link = document.createElement('a');
+
+                                link.href = "{{ $course_material->file_url }}";
+
+                                link.target = "_blank";
+
+                                link.download = '';
+
+
+                                document.body.appendChild(link);
+
+                                link.click();
+
+                                document.body.removeChild(link);
+                            }
+
+
+                            function viewFile() {
+                                window.open("{{ $course_material->file_url }}", "_blank");
+                            }
+                        </script>
                     @else
                         <tr>
                             <td colspan="5" class="text-center">No materials found.</td>
@@ -149,7 +180,7 @@
             <div class="modal-body">
                 <form action="{{ route('teacher.upload-course-material') }}" method="post" id="upload-form"
                     enctype="multipart/form-data">
-
+                    @csrf
                     <div class="form-group">
                         <label for="course_material_description"><b>Instruction*</b></label>
                         <textarea class="form-control mt-3" placeholder="Enter instruction for assignment..." name="course_material_description"
@@ -158,21 +189,24 @@
                     </div>
                     <div class="form-group">
                         <label for="file_upload"><b>Course Material*</b></label>
+                        <p class="m-2 text-secondary" style="display: flex">File type should be .pdf, .pptx or .docx |
+                            Max size: 5mb</p>
+                        <input type="file" class="form-control mt-3" id="file_upload" name="file_upload"
+                            required>
                         <p class="m-2" id="file-error-message" style="display: none"></p>
-                        <input type="file" class="form-control mt-3" id="file_upload" name="file_upload" required>
                         <!-- <div class="d-flex justify-content-end align-items-end mt-2">
                         <i class="fa fa-plus" aria-hidden="true"></i>
                     </div> -->
                     </div>
                     <div class="form-group mb-3">
-                        <label for="department_id">Department:</label>
-                        <select name="department_id" id="department_id" class="form-control" required>
-                            <option value="">Select Department</option>
+                        <label for="course_code">Course:</label>
+                        <select name="course_code" id="course_code" class="form-control" required>
+                            <option value="">Select Course</option>
 
-                            @foreach ($departments as $department)
-                                <option value="{{ $department->id }}" id="department_id"
-                                    {{ old('department_id') == $department->id ? 'selected' : '' }}>
-                                    {{ $department->department_name }}
+                            @foreach ($courses as $course)
+                                <option value="{{ $course->course_code }}" id="course_code"
+                                    {{ old('course_code') == $course->course_code ? 'selected' : '' }}>
+                                    {{ $course->course_name }}
                                 </option>
                             @endforeach
                         </select>
@@ -276,10 +310,10 @@
         const fileExtension = fileName.split('.').pop();
 
         if (file && allowedExtensions.includes(fileExtension)) {
-            
+
             return true;
         } else {
-            
+
             return false;
         }
     }
@@ -290,13 +324,13 @@
         // Get the file input element and the error message element
         const fileInput = document.getElementById('file_upload');
         const descInput = document.getElementById('course_material_description');
-        const departmentInput = document.getElementById('department_id');
+        const courseInput = document.getElementById('course_code');
 
         const desc_error_message = document.getElementById('desc-error-message');
         const file_error_message = document.getElementById('file-error-message');
         const dept_error_message = document.getElementById('dept-error-message');
 
-        let formValid = true; 
+        let formValid = true;
 
         // Reset error messages
         desc_error_message.style.display = 'none';
@@ -304,7 +338,7 @@
         dept_error_message.style.display = 'none';
 
         // Check if inputs are available
-        if (!descInput || !departmentInput || !fileInput) {
+        if (!descInput || !courseInput || !fileInput) {
             alert('Missing required form elements');
             return;
         }
@@ -313,7 +347,7 @@
         if (!validateFileType(fileInput, file_error_message)) {
             file_error_message.style.display = 'block';
             file_error_message.style.color = 'red';
-            file_error_message.innerText = 'File type should be .pdf, .pptx or .docx';
+            file_error_message.innerText = 'Select a valid file';
             formValid = false;
         }
 
@@ -326,7 +360,7 @@
         }
 
         // Validate department input
-        if (!departmentInput.value) {
+        if (!courseInput.value) {
             dept_error_message.style.display = 'block';
             dept_error_message.style.color = 'red';
             dept_error_message.innerText = 'Department to assign required';
@@ -335,10 +369,15 @@
 
         // If form is valid, submit the form
         if (formValid) {
-            alert('All good, form is valid!');
+            // alert('All good, form is valid!');
             document.getElementById('upload-form').submit();
-        
+
             // Optionally, submit the form programmatically
         }
     }
+
+
+    // document.addEventListener('load', function(){
+
+    // });
 </script>
