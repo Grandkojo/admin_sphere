@@ -9,7 +9,7 @@
     @endif
 
     <div>
-        <div class="container-fluid mt-4">
+        <div class="container-fluid mt-4" style="padding-left: 30px">
             <h2><b>DASHBOARD</b></h2>
         </div>
 

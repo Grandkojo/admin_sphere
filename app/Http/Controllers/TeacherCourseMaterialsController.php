@@ -20,20 +20,10 @@ class TeacherCourseMaterialsController extends Controller
             return $material;
         });
 
-        // $departments = Department::where('department');
 
         $courses = Course::where('course_code', Auth::user()->course_code)->get();
 
-        // $departments = Department::where('id', function ($query) {
-        //     $query->select('department_id')
-        //         ->from('programs')
-        //         ->where('id', function ($subQuery) {
-        //             $subQuery->select('program_id')
-        //                 ->from('courses')
-        //                 ->where('course_code', Auth::user()->course_code);
-        //         });
-        // })->get();
-
+     
         return view('teacher.course-materials', compact('course_materials', 'courses'));
 
     }

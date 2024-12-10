@@ -9,10 +9,7 @@
 </style>
 <div class="container-fluid">
     <div class="add-buttons">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#upload-course-material">
-            <i class="fa fa-plus me-2" aria-hidden="true"></i>Upload Material
-        </button>
-        {{-- <a href="{{ route('admin.students.new')}}" class="btn btn-primary text-end"><i class="fa fa-plus me-2" aria-hidden="true"></i>New</a> --}}
+        
     </div>
     <div class="card p-4">
         <div class="row mb-3">
@@ -31,17 +28,16 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <label for="program" class="form-label">Programs</label>
-                {{-- change route when working on it later --}}
-                <form method="GET" action="{{ route('admin.students') }}">
-                    <select id="program" name="program" class="form-select" onchange="this.form.submit()">
-                        {{-- <option value="ALL" {{ $selected_program == 'ALL' ? 'selected' : '' }}>ALL</option>
-                        @foreach ($programs as $program)
-                            <option value="{{ $program->id }}"
-                                {{ $selected_program == $program->id ? 'selected' : '' }}>
-                                {{ $program->program_name }}
+                <label for="program" class="form-label">Courses</label>
+                <form method="GET" action="{{ route('student.course-materials') }}">
+                    <select id="course" name="course" class="form-select" onchange="this.form.submit()">
+                        <option value="ALL" {{ $selected_course == 'ALL' ? 'selected' : '' }}>ALL</option>
+                        @foreach ($courses as $course)
+                            <option value="{{ $course->course_code }}"
+                                {{ $selected_course == $course->course_code ? 'selected' : '' }}>
+                                {{ $course->course_name }}
                             </option>
-                        @endforeach --}}
+                        @endforeach
                     </select>
                 </form>
 
@@ -184,8 +180,8 @@
                     @csrf
                     <div class="form-group">
                         <label for="course_material_description"><b>Instruction*</b></label>
-                        <textarea class="form-control mt-3" placeholder="Enter instruction for assignment..." name="course_material_description"
-                            id="course_material_description" required></textarea>
+                        <textarea class="form-control mt-3" placeholder="Enter instruction for assignment..."
+                            name="course_material_description" id="course_material_description" required></textarea>
                         <p id="desc-error-message" style="display: none"></p>
                     </div>
                     <div class="form-group">
