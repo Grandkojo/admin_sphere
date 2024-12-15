@@ -19,7 +19,7 @@ class StudentCourseMaterialsController extends Controller
 
 
         if ($selected_course !== 'ALL') {
-            // $course_materials = CourseMaterial::where('course_code', $selected_course);
+            $course_materials = CourseMaterial::where('course_code', $selected_course, 'and' , 'id', Auth::user()->id);
 
             // $course_materials = CourseMaterial::whereIn('course_code', function($query) use ($selected_course) {
             //     $query->select('course_code')
